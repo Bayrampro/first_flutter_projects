@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "185264719109",
+    "project_id": "crypto-list-app-5d2e3",
+    "storage_bucket": "crypto-list-app-5d2e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185264719109:android:9aa363a5508ec0532de36c",
+        "android_client_info": {
+          "package_name": "com.example.test_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGw1hmIt6RjadSE7tuqFEDxgeE5jKmplc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
