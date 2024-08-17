@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/models.dart';
@@ -50,12 +53,21 @@ class _ExpenseFormState extends State<ExpenseForm> {
     if (_titleController.text.trim().isEmpty ||
         isInvalidAmount ||
         _selectedDate == null) {
-      showDialog(
-        context: context,
-        builder: (context) => BotomSheetError(
-          close: close,
-        ),
-      );
+      if (Platform.isIOS) {
+        showCupertinoDialog(
+          context: context,
+          builder: (context) => BotomSheetError(
+            close: close,
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => BotomSheetError(
+            close: close,
+          ),
+        );
+      }
       return;
     }
     final newExpense = Expense(
@@ -80,40 +92,47 @@ class _ExpenseFormState extends State<ExpenseForm> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    return SizedBox(
-      width: double.infinity,
-      height: mediaQuery.size.height * 0.95,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            TextField(
-              maxLength: 50,
-              autofocus: true,
-              controller: _titleController,
-              decoration: const InputDecoration(
-                label: Text('Заголовок'),
+    return SingleChildScrollView(
+      child: SizedBox(
+        width: double.infinity,
+        height: mediaQuery.size.height * 0.95,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+            16.0,
+            32.0,
+            16.0,
+            mediaQuery.viewInsets.bottom + 16.0,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              TextField(
+                maxLength: 50,
+                autofocus: true,
+                controller: _titleController,
+                decoration: const InputDecoration(
+                  label: Text('Заголовок'),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 10.0,
-            ),
-            AmountAndDateInputs(
-              amountController: _amountController,
-              presentDatePicker: _presentDatePicker,
-              selectedDate: _selectedDate,
-            ),
-            const SizedBox(
-              height: 18.0,
-            ),
-            DropDownAndActions(
-              onSelectedCategory: _onSelectedCategory,
-              onSubmitExpense: _onSubmitExpense,
-              close: close,
-              selectedCategory: _selectedCategory,
-            ),
-          ],
+              const SizedBox(
+                height: 10.0,
+              ),
+              AmountAndDateInputs(
+                amountController: _amountController,
+                presentDatePicker: _presentDatePicker,
+                selectedDate: _selectedDate,
+              ),
+              const SizedBox(
+                height: 18.0,
+              ),
+              DropDownAndActions(
+                onSelectedCategory: _onSelectedCategory,
+                onSubmitExpense: _onSubmitExpense,
+                close: close,
+                selectedCategory: _selectedCategory,
+              ),
+            ],
+          ),
         ),
       ),
     );

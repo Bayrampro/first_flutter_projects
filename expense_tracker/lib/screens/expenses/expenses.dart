@@ -83,6 +83,7 @@ class _ExpensesState extends State<Expenses> {
 
   void _showExpenseForm() {
     showModalBottomSheet(
+      useSafeArea: true,
       isScrollControlled: true,
       context: context,
       builder: (context) => ExpenseForm(
