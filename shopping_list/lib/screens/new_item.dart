@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shopping_list/models/models.dart';
+import 'package:http/http.dart' as http;
 
 import '../data/data.dart';
 
@@ -15,6 +19,7 @@ class _NewItemState extends State<NewItem> {
   var _enteredTitle = '';
   var _enteredQuantity = 1;
   var _selectedCategory = Categories.fruit;
+  bool _isSending = false;
 
   String? _titleValidator(String? value) {
     if (value == null ||
@@ -36,17 +41,34 @@ class _NewItemState extends State<NewItem> {
     return null;
   }
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      Navigator.of(context).pop(
-        GroceryItem(
-          id: DateTime.now().toString(),
-          name: _enteredTitle,
-          quantity: _enteredQuantity,
-          category: categories[_selectedCategory]!,
-        ),
+      _isSending = true;
+      final url = Uri.https(
+        'fir-backend-d1814-default-rtdb.firebaseio.com',
+        'shopping-list.json',
       );
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'name': _enteredTitle,
+          'quantity': _enteredQuantity,
+          'category': categories[_selectedCategory]!.name,
+        }),
+      );
+
+      log(response.body);
+      log(response.statusCode.toString());
+
+      if (!context.mounted) {
+        return;
+      }
+
+      Navigator.of(context).pop();
     }
   }
 
@@ -96,6 +118,7 @@ class _NewItemState extends State<NewItem> {
                       children: [
                         Expanded(
                           child: TextFormField(
+                            keyboardType: TextInputType.number,
                             initialValue: '1',
                             decoration: const InputDecoration(
                               label: Text('Штук'),
@@ -137,15 +160,21 @@ class _NewItemState extends State<NewItem> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
-                          onPressed: _resetForm,
+                          onPressed: _isSending ? null : _resetForm,
                           child: const Text('Очистить'),
                         ),
                         const SizedBox(
                           width: 8.0,
                         ),
                         ElevatedButton(
-                          onPressed: _submitForm,
-                          child: const Text('Отправить'),
+                          onPressed: _isSending ? null : _submitForm,
+                          child: _isSending
+                              ? const SizedBox(
+                                  height: 16,
+                                  width: 16,
+                                  child: CircularProgressIndicator(),
+                                )
+                              : const Text('Отправить'),
                         ),
                       ],
                     )
