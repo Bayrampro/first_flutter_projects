@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "433032290274",
+    "project_id": "chat-app-366c0",
+    "storage_bucket": "chat-app-366c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433032290274:android:850c523d51a58863c5e3bb",
+        "android_client_info": {
+          "package_name": "com.bynet.chat_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI2XFA7deQXS4NXuiM1I_g9V7qsNgQsXo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433032290274:android:1769247bcbc721f9c5e3bb",
+        "android_client_info": {
+          "package_name": "com.bynet.chatapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI2XFA7deQXS4NXuiM1I_g9V7qsNgQsXo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
